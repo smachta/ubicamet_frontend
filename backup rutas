@@ -1,0 +1,87 @@
+import React from 'react';
+import { TabNavigator, StackNavigator , NavigationActions} from "react-navigation";
+import {Icon} from "react-native-elements";
+
+//MENU DEL TABBAR
+import Home from '../components/home.js';
+import Eventos from '../components/eventos.js'
+import Procesos from '../components/procesos.js';
+import Lugares from '../components/lugares.js';
+//TIPOS DE PROCESOS
+import Administrativo from '../components/administrativos.js';
+import Inscripciones from '../components/inscripciones.js';
+import Academicos from '../components/academicos.js';
+
+
+
+
+export const Stack1 = StackNavigator({
+Procesos: {
+  screen: Procesos,
+   navigationOptions: {
+     title: 'Procesos'
+      }
+    }
+});
+
+
+
+export const Stack2 = StackNavigator({
+  Proces: {
+      screen: Stack1,
+      navigationOptions:{
+        header:null
+      }
+    },
+  Administrativos: {
+      screen: Administrativo,
+      navigationOptions:{
+        title: 'Administrativos'
+      }
+    },
+  Inscripciones: {
+      screen: Inscripciones,
+      navigationOptions:{
+        title: 'Inscripciones'
+      }
+    },
+  Academicos: {
+      screen: Academicos,
+      navigationOptions:{
+        title: 'Academicos'
+      }
+    }
+});
+
+
+
+export const Tabs = TabNavigator({
+  Home: {
+    screen: Home,
+    navigationOptions:{
+        tabBarlabel: 'Home',
+        tabBarIcon: ({tintColor}) => <Icon name= "home" size={25} color={tintColor} />
+      }
+    },
+  Eventos: {
+    screen: Eventos,
+    navigationOptions:{
+        tabBarLabel: 'eventos',
+        tabBarIcon: ({tintColor}) => <Icon name= "home" size={25} color={tintColor} />
+    },
+  },
+  Procesos: {
+    screen: Stack2,
+    navigationOptions:{
+      tabBarLabel: 'procesos',
+      tabBarIcon: ({tintColor}) => <Icon name= "archive" size={25} color={tintColor} />
+    },
+  },
+  Lugares: {
+    screen: Lugares,
+    navigationOptions:{
+      tabBarLabel: 'lugares',
+      tabBarIcon: ({tintColor}) => <Icon name= "list" size={25} color={tintColor} />
+    },
+  }
+});

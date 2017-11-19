@@ -1,0 +1,28 @@
+# Uncomment the next line to define a global platform for your project
+ platform :ios, '8.0'
+
+target 'ubicamet' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for maptrial
+  pod 'Yoga', :path => '../node_modules/react-native/ReactCommon/yoga/Yoga.podspec'
+  pod 'React', path: '../node_modules/react-native', :subspecs => [
+    'Core',
+    'RCTActionSheet',
+    'RCTAnimation',
+    'RCTGeolocation',
+    'RCTImage',
+    'RCTLinkingIOS',
+    'RCTNetwork',
+    'RCTSettings',
+    'RCTText',
+    'RCTVibration',
+    'RCTWebSocket',
+    'BatchedBridge'
+  ]
+  pod 'RCTMapboxGL', :path => '../node_modules/react-native-mapbox-gl/ios'
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
+
+end

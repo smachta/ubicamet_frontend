@@ -1,0 +1,42 @@
+<Panel title="Comida">
+  <ListView
+    enableEmptySections = {true}
+    dataSource = {this.state.dataSource}
+    renderRow = {this.renderRow.bind(this)}
+  />
+</Panel>
+<Panel title="Estacionamientos">
+  <ListView
+    enableEmptySections = {true}
+    dataSource = {this.state.dataSource3}
+    renderRow = {this.renderRow.bind(this)}
+  />
+</Panel>
+<Panel title="Aulas">
+  <ListView
+    enableEmptySections = {true}
+    dataSource = {this.state.dataSource4}
+    renderRow = {this.renderRow.bind(this)}
+  />
+</Panel>
+<Panel title="Laboratorios">
+  <ListView
+    enableEmptySections = {true}
+    dataSource = {this.state.dataSource5}
+    renderRow = {this.renderRow.bind(this)}
+  />
+</Panel>
+<Panel title="Departamentos y Escuelas">
+  <ListView
+    enableEmptySections = {true}
+    dataSource = {this.state.dataSource6}
+    renderRow = {this.renderRow.bind(this)}
+  />
+</Panel>
+<Panel title="Areas de estudio">
+  <ListView
+    enableEmptySections = {true}
+    dataSource = {this.state.dataSource7}
+    renderRow = {this.renderRow.bind(this)}
+  />
+</Panel>
