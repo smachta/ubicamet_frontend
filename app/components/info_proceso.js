@@ -15,7 +15,7 @@ import {
 import { NavigationActions } from 'react-navigation';
 import {api} from '../config/data.js';
 import Hyperlink from 'react-native-hyperlink';
-
+import {link} from '../config/data.js';
 
 export default class Info extends React.Component {
 
@@ -40,7 +40,7 @@ export default class Info extends React.Component {
       var processInfo = [];
 
       if(processCategory === 'Académicos'){
-        fetch('http://192.168.1.11:3000/procedures/3/subpocesses.json')
+        fetch(link.concat('procedures/3/subpocesses.json'))
           .then((response) => response.json())
           .then((responseJson)=>{
             var aux = responseJson;
@@ -61,7 +61,7 @@ export default class Info extends React.Component {
           })
       }
       else if (processCategory === 'Administrativo') {
-        fetch('http://192.168.1.11:3000/procedures/2/subpocesses.json')
+        fetch(link.concat('procedures/2/subpocesses.json'))
           .then((response) => response.json())
           .then((responseJson)=>{
             var aux = responseJson;
@@ -82,7 +82,7 @@ export default class Info extends React.Component {
           })
       }
       else if(processCategory === 'Inscripcion'){
-        fetch('http://192.168.1.11:3000/procedures/1/subpocesses.json')
+        fetch(link.concat('procedures/1/subpocesses.json'))
           .then((response) => response.json())
           .then((responseJson)=>{
             var aux = responseJson;
@@ -103,7 +103,7 @@ export default class Info extends React.Component {
           })
       }
       else if(processCategory === 'Condiciones de Graduación'){
-        fetch('http://192.168.1.11:3000/procedures/4/subpocesses.json')
+        fetch(link.concat('procedures/4/subpocesses.json'))
           .then((response) => response.json())
           .then((responseJson)=>{
             var aux = responseJson;
@@ -124,7 +124,7 @@ export default class Info extends React.Component {
           })
       }
       else if(processCategory === 'Apoyo Socioeconómico'){
-        fetch('http://192.168.1.11:3000/procedures/5/subpocesses.json')
+        fetch(link.concat('procedures/5/subpocesses.json'))
           .then((response) => response.json())
           .then((responseJson)=>{
             var aux = responseJson;
@@ -145,7 +145,7 @@ export default class Info extends React.Component {
           })
       }
       else{
-        fetch('http://192.168.1.11:3000/procedures/6/subpocesses.json')
+        fetch(link.concat('procedures/6/subpocesses.json'))
           .then((response) => response.json())
           .then((responseJson)=>{
             var aux = responseJson;

@@ -8,9 +8,7 @@ import {
   Image
 } from 'react-native';
 import {List, ListItem, SearchBar, Tabs, Tab, Icon, Button} from 'react-native-elements';
-import {ubicacion , Estacionamiento} from '../config/data.js';
-import {TabBusqueda} from '../config/router2.js';
-
+import {link} from '../config/data.js';
 
 
 export default class Busqueda extends React.Component {
@@ -30,8 +28,7 @@ export default class Busqueda extends React.Component {
 
       var places = [];
       var filtro_lugares = [];
-
-      fetch('https://secure-cliffs-48876.herokuapp.com/places')
+      fetch(link.concat('places.json'))
         .then((response) => response.json())
         .then((responseJson)=>{
           var aux= responseJson;
@@ -52,15 +49,27 @@ export default class Busqueda extends React.Component {
 
 
   render(){
+     const {goBack} = this.props.navigation;
     return(
       <View>
-        <SearchBar
-          round
-          lightTheme
-          clearIcon = {{name: 'close', type: 'font-awesome'}}
-          onChangeText={(text) => this.filterSearch(text)}
-          value={this.state.text}
-          placeholder='Buscar Lugar...' />
+        <View style={{flexDirection:'row'}}>
+          <View style={{flex:1,justifyContent:'center', backgroundColor:'#e1e8ee', borderColor: 'black'}}>
+            <Icon
+              name='arrow-left'
+              type='font-awesome'
+              onPress={()=> goBack()}
+              color='#86939e' />
+          </View>
+          <View style={{flex:7}}>
+            <SearchBar
+              round
+              lightTheme
+              clearIcon = {{name: 'close', type: 'font-awesome'}}
+              onChangeText={(text) => this.filterSearch(text)}
+              value={this.state.text}
+              placeholder='Buscar Lugar...'/>
+          </View>
+          </View>
           <View  style={styles.buttonsContainer}>
            <View>
             <Button
@@ -69,7 +78,7 @@ export default class Busqueda extends React.Component {
               onPress = {this.listaxCategoria.bind(this, 'Comida')}
               style={styles.navigatorButton}
               icon={{name: 'cutlery' ,type: 'font-awesome'}}
-              backgroundColor= '#DC7633'
+              backgroundColor= '#EF6C00'
               />
             </View>
               <Button
@@ -79,16 +88,16 @@ export default class Busqueda extends React.Component {
                 large
                 style={{flex: 1}}
                 icon={{name: 'car' ,type: 'font-awesome'}}
-                backgroundColor= '#DC7633'
+                backgroundColor= '#EF6C00'
                 />
               <Button
                 borderRadius = {6}
-                onPress = {this.listaxCategoria.bind(this, 'Auditorio')}
+                onPress = {this.listaxCategoria.bind(this, 'Deporte')}
                 style={styles.navigatorButton}
                 large
                 style={{flex: 1}}
-                icon={{name: 'graduation-cap' ,type: 'font-awesome'}}
-                backgroundColor= '#DC7633'
+                icon={{name: 'soccer-ball-o' ,type: 'font-awesome'}}
+                backgroundColor= '#EF6C00'
                  />
           </View>
           <List>
@@ -111,7 +120,7 @@ export default class Busqueda extends React.Component {
     if(espacio === 'Estacionamiento'){
 
       var places = [];
-      fetch('https://secure-cliffs-48876.herokuapp.com/categories/101/places')
+      fetch('https://ubicamet.herokuapp.com/categories/111/places')//https://ubicamet.herokuapp.com/categories/111/places'
         .then((response) => response.json())
         .then((responseJson)=>{
           var aux= responseJson;
@@ -129,7 +138,7 @@ export default class Busqueda extends React.Component {
     }else if(espacio === 'Comida'){
 
       var places = [];
-      fetch('https://secure-cliffs-48876.herokuapp.com/categories/61/places')
+      fetch('https://ubicamet.herokuapp.com/categories/41/places')
         .then((response) => response.json())
         .then((responseJson)=>{
           var aux= responseJson;
@@ -144,10 +153,10 @@ export default class Busqueda extends React.Component {
             dataSource: this.state.dataSource.cloneWithRows(places)
           })
         })
-      }else if(espacio === 'Auditorio'){
+      }else if(espacio === 'Deporte'){
 
         var places=[];
-        fetch('https://secure-cliffs-48876.herokuapp.com/categories/41/places')
+        fetch('https://ubicamet.herokuapp.com/categories/101/places')
           .then((response) => response.json())
           .then((responseJson)=>{
             var aux= responseJson;
@@ -174,6 +183,55 @@ export default class Busqueda extends React.Component {
         />
       </List>
     )
+  }
+
+
+  actualizarCoordenadas(json, dataRow){
+    var descripcion='';
+    var places= json;
+    var coord = [];
+    var images_array =[];
+    var img=[];
+    const {state} = this.props.navigation;
+    const lugar = dataRow;
+
+
+    for(var i=0; i<places.length; i++){
+      if(lugar === places[i].name){
+        coord[0] = places[i].longitude;
+        coord[1] = places[i].latitude;
+        descripcion = places[i].description;
+        var enlace='http://192.168.1.11:3000'
+        img[0] = places[i].image_url_medium;
+        img[1] = places[i].avatar_url_medium;
+        img[2] = places[i].picture_url_medium;
+          for(var j=0; j<img.length; j++ ){
+              var image = new Object();
+              image.pic = enlace.concat(img[j]);
+              image.key = j;
+              images_array[j] = image;
+          }
+        i = places.length-1;
+      }
+    }
+
+
+    const {navigate} = this.props.navigation;
+    navigate('navegarLugar', {place: dataRow,
+                              coord: coord,
+                              descripcion: descripcion,
+                              image: images_array});
+  }
+
+/////////////////////////////////////////////
+/////////////////////////////////////////////
+  pressCell(dataRow) {
+    fetch(link.concat('places.json'))
+      .then((response) => response.json())
+      .then((responseJson)=>{
+        var aux = responseJson;
+          this.actualizarCoordenadas(aux, dataRow);
+      })//si me aparece lo del problema de mounted, poner en vez de navegarLugar
   }
 
   filterSearch(text){
@@ -203,13 +261,6 @@ export default class Busqueda extends React.Component {
       text: text
     })
   }
-
-  pressCell(dataRow) {
-  const {navigate} = this.props.navigation;
-    navigate(dataRow, {place: dataRow});
-  }
-
-
 
 renderRow (dataRow, sectionID) {
 
@@ -261,7 +312,7 @@ styles = StyleSheet.create({
     },
     cell: {
       borderBottomWidth:3,
-      borderBottomColor: '#DC7633',
+      borderBottomColor: '#EF6C00',
       paddingTop: 20,
       paddingBottom: 20,
       alignItems: 'center',

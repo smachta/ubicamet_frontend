@@ -12,7 +12,6 @@ import {
   Image
 } from 'react-native';
 import {datos, tipos} from '../config/data.js';
-import Administrativo from './administrativos.js';
 import { NavigationActions } from 'react-navigation';
 
 
@@ -25,27 +24,26 @@ export default class Procesos extends React.Component {
     };
   }
 
-  /*static navigationOptions = ({ navigation, screenProps }) => ({
-     headerLeft: <Button
-                     color={screenProps.tintColor}
-                     title='volver'
-                     onPress={() => navigation.navigate('Home')}
-                  />
-   });*/
 
 componentDidMount(){
    var tipos_procesos = [];
-   var aux = datos.Procesos;
-   this.setState({
-     dataSource: this.state.dataSource.cloneWithRows(aux)
-   })
-
+   fetch('http://192.168.1.11:3000/procedures.json')
+     .then((response) => response.json())
+     .then((responseJson)=>{
+       var aux = responseJson;
+         for(var i=0; i<aux.length; i++){
+                   tipos_procesos[i] = aux[i].name;
+         }
+       this.setState({
+         dataSource: this.state.dataSource.cloneWithRows(tipos_procesos)
+       })
+     })
 }
 
 
 pressCell(dataRow){
-    this.props.navigation.navigate(dataRow);
-}
+    this.props.navigation.navigate('CategoriaProceso', {categoryName: dataRow});
+  }
 
  renderRow(dataRow){
   return (
@@ -70,7 +68,7 @@ render() {
       />
       <View>
      <Image
-       source={require('../image/bandera-unimet.jpg')}
+       source={require('../image/saman-sepia.jpg')}
        style={styles.image}/>
      </View>
    </View>
@@ -124,7 +122,8 @@ const styles = StyleSheet.create({
   texto:{
     color: 'white',
     fontFamily: 'Helvetica',
-    fontSize: 16,
+    fontSize: 14,
+    fontWeight: 'bold',
   },
   titulo:{
     fontSize: 36,
@@ -135,7 +134,7 @@ const styles = StyleSheet.create({
   },
     image: {
       width: 400,
-      height:400,
+      height:450,
       alignItems: 'center'
     },
 });

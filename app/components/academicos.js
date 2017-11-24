@@ -14,8 +14,6 @@ import {
 import {datos, array_academico} from '../config/data.js';
 
 
-
-
 export default class Academicos extends React.Component {
   constructor() {
     super();
@@ -24,7 +22,6 @@ export default class Academicos extends React.Component {
       dataSource: ds.cloneWithRows([]),
     };
   }
-
 
 componentDidMount(){
    var tipos_procesos = [];
@@ -35,7 +32,10 @@ componentDidMount(){
 }
 
 pressCell(dataRow){
-  this.props.navigation.navigate(dataRow);
+  const {state} = this.props.navigation
+  var category = state.routeName;
+  this.props.navigation.navigate('Info', {processName: dataRow,
+                                          processCategory: category});
 }
 
  renderRow(dataRow){
@@ -113,7 +113,8 @@ const styles = StyleSheet.create({
   texto:{
     color: 'white',
     fontFamily: 'Helvetica',
-    fontSize: 16,
+    fontSize: 14,
+    fontWeight: 'bold',
   },
   titulo:{
     fontSize: 36,

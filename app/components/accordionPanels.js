@@ -9,8 +9,9 @@ import {StyleSheet,
   ListView
 } from 'react-native'; //Step 1
 import Accordion from 'react-native-accordion';
-import {ubicacion} from '../config/data.js';
 import Panel from './accordion.js';
+
+var background = '#DC7633'
 
 export default class Panels extends Component {
 
@@ -42,21 +43,21 @@ export default class Panels extends Component {
         dataSource10: ds10.cloneWithRows([]),
         dataSource11: ds11.cloneWithRows([]),
         dataSource12: ds12.cloneWithRows([]),
+        dataSource13: ds12.cloneWithRows([]),
+        dataSource14: ds12.cloneWithRows([]),
+        dataSource15: ds12.cloneWithRows([]),
+        dataSource16: ds12.cloneWithRows([]),
+        dataSource17: ds12.cloneWithRows([]),
+        longitude: '',
+        latitude:' '
       }
   }
 
   componentDidMount(){
-    var places = ubicacion.lugares;
-    var aux = [];
-    for(var i = 0 ; i< places.length; i++){
-        aux[i] = places[i].name
-    }
-        this.setState({
-            dataSource: this.state.dataSource.cloneWithRows(aux)
-        })
+  
 /////Comida
         var places = [];
-        fetch('https://secure-cliffs-48876.herokuapp.com/categories/61/places')
+        fetch('https://ubicamet.herokuapp.com/categories/41/places')
           .then((response) => response.json())
           .then((responseJson)=>{
             var aux= responseJson;
@@ -70,7 +71,7 @@ export default class Panels extends Component {
 
 /////Auditorio
           var places2 = [];
-          fetch('https://secure-cliffs-48876.herokuapp.com/categories/41/places')
+          fetch('https://ubicamet.herokuapp.com/categories/21/places')
             .then((response) => response.json())
             .then((responseJson)=>{
               var aux= responseJson;
@@ -84,7 +85,7 @@ export default class Panels extends Component {
 
 /////Estacionamientos
            var places3 = [];
-           fetch('https://secure-cliffs-48876.herokuapp.com/categories/101/places')
+           fetch('https://ubicamet.herokuapp.com/categories/111/places')
              .then((response) => response.json())
              .then((responseJson)=>{
               var aux= responseJson;
@@ -98,7 +99,7 @@ export default class Panels extends Component {
 
 //////Aulas
               var places4 = [];
-              fetch('https://secure-cliffs-48876.herokuapp.com/categories/1/places')
+              fetch('https://ubicamet.herokuapp.com/categories/31/places')
                 .then((response) => response.json())
                 .then((responseJson)=>{
                  var aux= responseJson;
@@ -112,7 +113,7 @@ export default class Panels extends Component {
 
 //////Laboratorios
                  var places5 = [];
-                 fetch('https://secure-cliffs-48876.herokuapp.com/categories/11/places')
+                 fetch('https://ubicamet.herokuapp.com/categories/121/places')
                    .then((response) => response.json())
                    .then((responseJson)=>{
                     var aux= responseJson;
@@ -124,9 +125,9 @@ export default class Panels extends Component {
                           })
                     })
 
-//////Departamentos y Escuelas
+//////Departamentos
                     var places6 = [];
-                    fetch('https://secure-cliffs-48876.herokuapp.com/categories/21/places')
+                    fetch('https://ubicamet.herokuapp.com/categories/71/places')
                       .then((response) => response.json())
                       .then((responseJson)=>{
                        var aux= responseJson;
@@ -140,7 +141,7 @@ export default class Panels extends Component {
 
 /////Areas de estudio
                        var places7 = [];
-                       fetch('https://secure-cliffs-48876.herokuapp.com/categories/31/places')
+                       fetch('https://ubicamet.herokuapp.com/categories/11/places')
                          .then((response) => response.json())
                          .then((responseJson)=>{
                           var aux= responseJson;
@@ -152,81 +153,339 @@ export default class Panels extends Component {
                                 })
                           })
 
-  }
+/////Administrativo
+                        var places8 = [];
+                        fetch('https://ubicamet.herokuapp.com/categories/1/places')
+                          .then((response) => response.json())
+                          .then((responseJson)=>{
+                           var aux= responseJson;
+                              for(var i=0; i<aux.length; i++){
+                                 places8[i] = aux[i].name;
+                               }
+                             this.setState({
+                                 dataSource8: this.state.dataSource.cloneWithRows(places8),
+                                 })
+                           })
+
+/////Cultura y recreacion
+                           var places9 = [];
+                           fetch('https://ubicamet.herokuapp.com/categories/51/places')
+                             .then((response) => response.json())
+                             .then((responseJson)=>{
+                              var aux= responseJson;
+                                 for(var i=0; i<aux.length; i++){
+                                    places9[i] = aux[i].name;
+                                  }
+                                this.setState({
+                                    dataSource9: this.state.dataSource.cloneWithRows(places9),
+                                    })
+                              })
+
+/////Decanatos y Rectorados
+                              var places10 = [];
+                              fetch('https://ubicamet.herokuapp.com/categories/61/places')
+                                .then((response) => response.json())
+                                .then((responseJson)=>{
+                                 var aux= responseJson;
+                                    for(var i=0; i<aux.length; i++){
+                                       places10[i] = aux[i].name;
+                                     }
+                                   this.setState({
+                                       dataSource10: this.state.dataSource.cloneWithRows(places10),
+                                       })
+                                 })
+
+/////Direcciones
+                                 var places11 = [];
+                                 fetch('https://ubicamet.herokuapp.com/categories/81/places')
+                                   .then((response) => response.json())
+                                   .then((responseJson)=>{
+                                    var aux= responseJson;
+                                       for(var i=0; i<aux.length; i++){
+                                          places11[i] = aux[i].name;
+                                        }
+                                      this.setState({
+                                          dataSource11: this.state.dataSource.cloneWithRows(places11),
+                                          })
+                                    })
+
+////Escuelas
+                                    var places12 = [];
+                                    fetch('https://ubicamet.herokuapp.com/categories/91/places')
+                                      .then((response) => response.json())
+                                      .then((responseJson)=>{
+                                       var aux= responseJson;
+                                          for(var i=0; i<aux.length; i++){
+                                             places12[i] = aux[i].name;
+                                           }
+                                         this.setState({
+                                             dataSource12: this.state.dataSource.cloneWithRows(places12),
+                                             })
+                                       })
+
+
+/////Deporte
+                                    var places13 = [];
+                                    fetch('https://ubicamet.herokuapp.com/categories/101/places')
+                                      .then((response) => response.json())
+                                      .then((responseJson)=>{
+                                        var aux= responseJson;
+                                            for(var i=0; i<aux.length; i++){
+                                              places13[i] = aux[i].name;
+                                              }
+                                            this.setState({
+                                                dataSource13: this.state.dataSource.cloneWithRows(places13),
+                                              })
+                                       })
+
+
+
+/////Oficinas
+                                    var places14 = [];
+                                    fetch('https://ubicamet.herokuapp.com/categories/131/places')
+                                      .then((response) => response.json())
+                                      .then((responseJson)=>{
+                                        var aux= responseJson;
+                                            for(var i=0; i<aux.length; i++){
+                                              places14[i] = aux[i].name;
+                                              }
+                                            this.setState({
+                                                dataSource14: this.state.dataSource.cloneWithRows(places14),
+                                              })
+                                       })
+
+/////Otros
+                                    var places15 = [];
+                                    fetch('https://ubicamet.herokuapp.com/categories/141/places')
+                                      .then((response) => response.json())
+                                      .then((responseJson)=>{
+                                        var aux= responseJson;
+                                            for(var i=0; i<aux.length; i++){
+                                              places15[i] = aux[i].name;
+                                              }
+                                            this.setState({
+                                                dataSource15: this.state.dataSource.cloneWithRows(places15),
+                                              })
+                                       })
+
+/////Servicios
+                                    var places16 = [];
+                                    fetch('https://ubicamet.herokuapp.com/categories/151/places')
+                                      .then((response) => response.json())
+                                      .then((responseJson)=>{
+                                        var aux= responseJson;
+                                            for(var i=0; i<aux.length; i++){
+                                              places16[i] = aux[i].name;
+                                              }
+                                            this.setState({
+                                                dataSource16: this.state.dataSource.cloneWithRows(places16),
+                                              })
+                                       })
+
+/////Edificios
+                                    var places17 = [];
+                                    fetch('https://ubicamet.herokuapp.com/categories/161/places')
+                                      .then((response) => response.json())
+                                      .then((responseJson)=>{
+                                        var aux= responseJson;
+                                            for(var i=0; i<aux.length; i++){
+                                              places17[i] = aux[i].name;
+                                              }
+                                            this.setState({
+                                                dataSource17: this.state.dataSource.cloneWithRows(places17),
+                                              })
+                                       })
+
+}
 
 
   render(){
       return (  //Step 2
     <ScrollView style={styles.container}>
       <View style={styles.containerTitulo}>
-          <Text style={styles.tituloMenu1}>  La</Text>
-          <Text style={styles.tituloMenu2}>       Guia del</Text>
-          <Text style={styles.tituloMenu3}>Estudiante</Text>
+          <Image source={require('../image/Ubicamet.png')}
+          style={styles.image}/>
       </View>
       <View style={styles.container_acordion}>
-          <Panel title="Auditorios">
+          <Panel title="Auditorios"
+                background={'#AD5203'} >
             <ListView
               enableEmptySections = {true}
               dataSource = {this.state.dataSource2}
               renderRow = {this.renderRow.bind(this)}
             />
           </Panel>
-          <Panel title="Comida">
+          <Panel title="Comida"
+                 background={'#B85702'} >
             <ListView
               enableEmptySections = {true}
               dataSource = {this.state.dataSource}
               renderRow = {this.renderRow.bind(this)}
             />
           </Panel>
-          <Panel title="Estacionamientos">
+          <Panel title="Estacionamientos"
+                 background={'#C35C02'} >
             <ListView
               enableEmptySections = {true}
               dataSource = {this.state.dataSource3}
               renderRow = {this.renderRow.bind(this)}
             />
           </Panel>
-          <Panel title="Aulas">
+          <Panel title="Aulas"
+                 background={'#CC6001'} >
             <ListView
               enableEmptySections = {true}
               dataSource = {this.state.dataSource4}
               renderRow = {this.renderRow.bind(this)}
             />
           </Panel>
-          <Panel title="Laboratorios">
+          <Panel title="Laboratorios"
+                 background={'#D46503'} >
             <ListView
               enableEmptySections = {true}
               dataSource = {this.state.dataSource5}
               renderRow = {this.renderRow.bind(this)}
             />
           </Panel>
-          <Panel title="Departamentos y Escuelas">
+          <Panel title="Departamentos"
+                 background={'#E06B04'} >
             <ListView
               enableEmptySections = {true}
               dataSource = {this.state.dataSource6}
               renderRow = {this.renderRow.bind(this)}
             />
           </Panel>
-          <Panel title="Areas de estudio">
+          <Panel title="Areas de estudio"
+                 background={'#ED7206'} >
             <ListView
               enableEmptySections = {true}
               dataSource = {this.state.dataSource7}
               renderRow = {this.renderRow.bind(this)}
             />
           </Panel>
+          <Panel title="Decanatos y Rectorados"
+                     background={'#EF6C00'} >
+            <ListView
+              enableEmptySections = {true}
+              dataSource = {this.state.dataSource10}
+              renderRow = {this.renderRow.bind(this)}
+            />
+          </Panel>
+          <Panel title="Direcciones"
+                 background={'#F57C00'} >
+            <ListView
+              enableEmptySections = {true}
+              dataSource = {this.state.dataSource11}
+              renderRow = {this.renderRow.bind(this)}
+            />
+          </Panel>
+          <Panel title="Escuelas"
+                 background={'#FB8C00'} >
+            <ListView
+              enableEmptySections = {true}
+              dataSource = {this.state.dataSource12}
+              renderRow = {this.renderRow.bind(this)}
+            />
+          </Panel>
+          <Panel title="Deporte"
+                 background={'#FF9800'} >
+            <ListView
+              enableEmptySections = {true}
+              dataSource = {this.state.dataSource13}
+              renderRow = {this.renderRow.bind(this)}
+            />
+          </Panel>
+          <Panel title="Oficinas"
+                 background={'#FFA726'} >
+            <ListView
+              enableEmptySections = {true}
+              dataSource = {this.state.dataSource14}
+              renderRow = {this.renderRow.bind(this)}
+            />
+          </Panel>
+          <Panel title="Otros"
+                 background={'#FFB74D'} >
+            <ListView
+              enableEmptySections = {true}
+              dataSource = {this.state.dataSource15}
+              renderRow = {this.renderRow.bind(this)}
+            />
+          </Panel>
+          <Panel title="Servicios"
+                 background={'#FFCC80'} >
+            <ListView
+              enableEmptySections = {true}
+              dataSource = {this.state.dataSource16}
+              renderRow = {this.renderRow.bind(this)}
+            />
+          </Panel>
+          <Panel title="Edificios"
+                 background={'#FFE0B2'} >
+            <ListView
+              enableEmptySections = {true}
+              dataSource = {this.state.dataSource17}
+              renderRow = {this.renderRow.bind(this)}
+            />
+          </Panel>
+          <Panel title="Cultura y Recreación"
+                 background={'#FFF3E0'} >
+            <ListView
+              enableEmptySections = {true}
+              dataSource = {this.state.dataSource9}
+              renderRow = {this.renderRow.bind(this)}
+            />
+          </Panel>
       </View>
       <View style={{alignItems:'center'}}>
-        <Image
-          source={require('../image/Unimet_logo.png')}
-          style={styles.image}/>
+          <Text style={styles.developedTitle}>Developed by Salvador Machta & Alejandro Chiossone</Text>
       </View>
     </ScrollView>
       );
     }
 
+      actualizarCoordenadas(json, dataRow){
+        var descripcion='';
+        var places= json;
+        var coord = [];
+        var images_array = [];
+        var img = [];
+        const {state} = this.props.navigation;
+        const lugar = dataRow;
+
+
+        for(var i=0; i<places.length; i++){
+          if(lugar === places[i].name){
+            coord[0] = places[i].longitude;
+            coord[1] = places[i].latitude;
+            descripcion = places[i].description;
+            var enlace='http://192.168.1.11:3000'
+            img[0] = places[i].image_url_medium;
+            img[1] = places[i].avatar_url_medium;
+            img[2] = places[i].picture_url_medium;
+              for(var j=0; j<img.length; j++ ){
+                  var image = new Object();
+                  image.pic = enlace.concat(img[j]);
+                  image.key = j;
+                  images_array[j] = image;
+              }
+            i = places.length-1;
+          }
+        }
+        const {navigate} = this.props.navigation;
+        navigate('navegarLugar', {place: dataRow,
+                                  coord: coord,
+                                  descripcion: descripcion,
+                                  image: images_array});
+      }
+
 
     pressCell(dataRow) {
-    const {navigate} = this.props.navigation;
-      navigate(dataRow, {place: dataRow});
+      fetch('http://192.168.1.11:3000/places.json')
+        .then((response) => response.json())
+        .then((responseJson)=>{
+          var aux = responseJson;
+            this.actualizarCoordenadas(aux, dataRow);
+        })//si me aparece lo del problema de mounted, poner en vez de navegarLugar
     }
 
 
@@ -248,11 +507,11 @@ export default class Panels extends Component {
   const styles = StyleSheet.create({
     container: {
       flex            : 1,
-      backgroundColor : '#0B59A7',
+      backgroundColor : 'white',
       paddingTop      : 30
     },
     cell: {
-      borderBottomWidth:3,
+      borderBottomWidth:1,
       borderBottomColor: '#DC7633',
       paddingTop: 20,
       paddingBottom: 20,
@@ -266,42 +525,25 @@ export default class Panels extends Component {
     },
     containerRow: {
       flex: 1,
-      backgroundColor:'#0B59A7'
+      backgroundColor:'#055CB3'
     },
     containerTitulo:{
-      paddingBottom: 20,
-      borderBottomWidth:5,
-      borderBottomColor: '#34495E'
-    },
-    tituloMenu1:{
-      fontSize: 55,
-      textAlign: 'left',
-      fontFamily: 'Savoye Let',
-      paddingBottom: 0,
-      fontWeight: 'bold',
-      color:'white'
-    },
-    tituloMenu2:{
-      fontSize: 55,
-      textAlign: 'left',
-      fontFamily: 'Savoye Let',
-      fontWeight: 'bold',
-      color:'white'
-    },
-    tituloMenu3:{
-      fontSize: 55,
-      fontWeight: 'bold',
-      textAlign: 'right',
-      fontFamily: 'Savoye Let',
-      color:'white'
+      paddingTop: 20,
+      paddingBottom: 40,
+      borderBottomColor: '#34495E',
+      alignItems: 'center'
     },
     image:{
-      width: 80,
-      height: 80,
+      width: 220,
+      height: 40,
     },
     container_acordion:{
-      borderBottomWidth:7,
-      borderBottomColor: '#34495E',
       marginBottom: 30
+    },
+    developedTitle:{
+      fontFamily: 'Helvetica',
+      fontSize: 10,
+      color: 'black',
+      fontWeight: 'bold'
     }
   });

@@ -32,7 +32,10 @@ componentDidMount(){
 }
 
 pressCell(dataRow){
-  this.props.navigation.navigate(dataRow);
+  const {state} = this.props.navigation
+  var category = state.routeName;
+  this.props.navigation.navigate('Info', {processName: dataRow,
+                                          processCategory: category});
 }
 
  renderRow(dataRow){
@@ -55,7 +58,7 @@ render() {
       />
       <View>
      <Image
-       source={require('../image/bandera-unimet.jpg')}
+       source={require('../image/campus.jpg')}
        style={styles.image}/>
      </View>
    </View>
@@ -109,7 +112,8 @@ const styles = StyleSheet.create({
   texto:{
     color: 'white',
     fontFamily: 'Helvetica',
-    fontSize: 16,
+    fontSize: 14,
+    fontWeight: 'bold',
   },
   titulo:{
     fontSize: 36,
@@ -120,7 +124,7 @@ const styles = StyleSheet.create({
   },
     image: {
       width: 500,
-      height:200,
+      height:210,
       alignItems: 'center'
     }
 });

@@ -9,19 +9,28 @@ import {
   Text,
   StatusBar,
   View,
-  ScrollView
+  ScrollView,
+  Alert,
+  Dimensions
 } from 'react-native';
-import {ubicacion} from '../config/data.js';
+
 import { Button } from 'react-native-elements';
 
 const accessToken = 'pk.eyJ1Ijoic2FsdmFtMTAwIiwiYSI6ImNqNjA1aXNjNTBod3YzM212dmpiaGlqamgifQ._zxPSdROi-em--GJtflQCA';
 Mapbox.setAccessToken(accessToken);
 
+//const {width, height} = Dimensions.get('window')
+
 export default class MapExample extends Component {
 
 
   state = {
-    nombre_lugar:'Caracas',
+      region:{
+      latitude: null,
+      longitude: null,
+      longitudeDelta: null,
+      latitudeDelta: null
+    },
     center: {
       latitude: 10.4988,
       longitude: - 66.7851
@@ -39,7 +48,7 @@ export default class MapExample extends Component {
         width: 25
       },
       annotationImage: {
-        source: { uri: '/Users/smachta1/Downloads/metro_marker.png' },
+        source: { uri: '/Users/smachta1/Downloads/placeholder.png' },
         height: 25,
         width: 25
       },
@@ -72,10 +81,32 @@ export default class MapExample extends Component {
     }]
   };
 
+/*  calcDelta(lat,lon,accuracy){
+    const oneDegreeOfLongitudInMeters = 111.32;
+    const circunference = (40075/360)
+    const latDelta = accuracy * (1 / (Math.cos(lat) * circunference))
+    const lonDelta = (accuracy / oneDegreeOfLongitudInMeters)
+
+    this.setState({
+      region:{
+        latitude: lat,
+        longitude: lon,
+        latitudeDelta: latDelta,
+        longitudeDelta: lonDelta
+      }
+    })
+  }
+*/
+
+
   componentDidMount(){
-const {state} = this.props.navigation;
+    const {state} = this.props.navigation;
 
   }
+
+
+
+
 
   onRegionDidChange = (location) => {
     this.setState({ currentZoom: location.zoomLevel });
@@ -114,20 +145,15 @@ const {state} = this.props.navigation;
     this._offlineErrorSubscription = Mapbox.addOfflineErrorListener(error => {
       console.log('offline error', error);
     });
-
-/*
-    fetch('http://192.168.1.11:3000/places')
-      .then((response) => response.json())
-      .then((responseJson)=>{
-        var aux= responseJson;
-        this.setState({
-          nombre_lugar: aux
-        })
-        this.updateMarker1(aux);
-      })*/
-      var aux= 'borrar';
-      this.updateMarker1(aux);
-  }
+  /*  navigator.geolocation.getCurrentPosition((position) => {
+      const lat = position.coords.latitude
+      const lon =position.coords.longitude
+      const accuracy = position.coords.accuracy
+      this.calcDelta(lat, lon, accuracy)
+    }
+  )*/
+  this.updateMarker1();
+}
 
   componentWillUnmount() {
     this._offlineProgressSubscription.remove();
@@ -154,28 +180,10 @@ const {state} = this.props.navigation;
     });
   };
 
-  updateMarker1 = (json) => {
-
-    var nom='';
-    //var places= json;
-    var places = ubicacion.lugares //borrar en lo que ale venga
-    var coord = [];
-        const {state} = this.props.navigation;
-
-
-        for(var i=0; i<places.length; i++){
-          if(state.routeName === places[i].name){
-            coord[0] = places[i].longitude;
-            coord[1] = places[i].latitude;
-            nom = places[i].name;
-            i = places.length-1;
-          }else{
-            coord[0] = places[i].longitude;
-            coord[1] = places[i].latitude;
-            nom = places[i].name;
-          }
-        }
-
+  updateMarker1 = () => {
+    var coord=[];
+      coord[0] = 10.49933;
+      coord[1]= -66.78542;
     // Treat annotations as immutable and use .map() instead of changing the array
     this.setState({
       annotations: this.state.annotations.map(annotation => {
@@ -186,9 +194,9 @@ const {state} = this.props.navigation;
           title: 'SAMAN',
           subtitle: 'Símbolo de la Universidad Metropolitana',
           annotationImage: {
-            source: { uri: '/Users/smachta1/Downloads/metro_marker.png' },
-            height: 35,
-            width: 35
+            source: { uri: 'https://i2.wp.com/www.tafelberg.co.za/wp-content/uploads/2016/07/map-marker-hi.png?fit=372%2C594&ssl=1' },
+            height: 25,
+            width: 25
           },
           id: 'marker1'
         };
@@ -202,13 +210,15 @@ const {state} = this.props.navigation;
     });
   };
 
+  watchID: ?number= null
+
   render() {
     StatusBar.setHidden(true);
     return (
       <View style={styles.container}>
         <View style= {styles.container_button}>
           <Button
-            small
+
             containerViewStyle = {styles.container_button}
             buttonStyle= {styles.button}
             icon={{name: 'search', type: 'font-awesome'}}
@@ -242,7 +252,7 @@ const {state} = this.props.navigation;
           onLongPress={this.onLongPress}
           onTap={this.onTap}
           compassIsHidden={false}
-        />  
+        />
       </View>
     );
   }
@@ -256,7 +266,8 @@ const styles = StyleSheet.create({
     alignItems: 'stretch'
   },
   map: {
-    flex: 1
+    flex: 1,
+    //width: width
   },
   scrollView: {
     flex: 1

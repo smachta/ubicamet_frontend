@@ -10,18 +10,27 @@ import {
   StatusBar,
   View,
   ScrollView,
+  Dimensions
 } from 'react-native';
-import {ubicacion} from '../config/data.js';
+
 import {Drawer} from '../config/router.js';
 import { Button } from 'react-native-elements';
 const accessToken = 'pk.eyJ1Ijoic2FsdmFtMTAwIiwiYSI6ImNqNjA1aXNjNTBod3YzM212dmpiaGlqamgifQ._zxPSdROi-em--GJtflQCA';
 Mapbox.setAccessToken(accessToken);
 
+
+//const {width, height} = Dimensions.get('window')
+
+
 export default class MapExample1 extends Component {
 
-
   state = {
-    nombre_lugar:'Caracas',
+    region:{
+      latitude: null,
+      longitude: null,
+      longitudeDelta: null,
+      latitudeDelta: null
+    },
     center: {
       latitude: 10.4988,
       longitude: - 66.7851
@@ -72,6 +81,24 @@ export default class MapExample1 extends Component {
     }]
   };
 
+
+  /*calcDelta(lat,lon,accuracy){
+    const oneDegreeOfLongitudInMeters = 111.32;
+    const circunference = (40075/360)
+    const latDelta = accuracy * (1 / (Math.cos(lat) * circunference))
+    const lonDelta = (accuracy / oneDegreeOfLongitudInMeters)
+
+    this.setState({
+      region:{
+        latitude: lat,
+        longitude: lon,
+        latitudeDelta: latDelta,
+        longitudeDelta: lonDelta
+      }
+    })
+  }*/
+
+
   componentDidMount(){
   }
 
@@ -113,18 +140,22 @@ export default class MapExample1 extends Component {
       console.log('offline error', error);
     });
 
+    /*navigator.geolocation.getCurrentPosition((position) => {
+      const lat = position.coords.latitude
+      const lon =position.coords.longitude
+      const accuracy = position.coords.accuracy
+      this.calcDelta(lat, lon, accuracy)
+    }
+  )
+  */
 
-    fetch('https://secure-cliffs-48876.herokuapp.com/places')
-      .then((response) => response.json())
-      .then((responseJson)=>{
-        var aux= responseJson;
-        this.setState({
-          nombre_lugar: aux
-        })
-        this.updateMarker1(aux);
-      })
-      //var aux= 'borrar';
-      //this.updateMarker1(aux);
+    this.setState({
+        center:{
+          latitude: Number(this.props.screenProps.coord[0]),
+          longitude: Number(this.props.screenProps.coord[1])
+        }
+    })
+    this.updateMarker1();
   }
 
   componentWillUnmount() {
@@ -152,41 +183,19 @@ export default class MapExample1 extends Component {
     });
   };
 
-  updateMarker1 = (json) => {
-
-    var descripcion='';
-    var places= json;
-    //var places = ubicacion.lugares //borrar en lo que ale venga
-    var coord = [];
-        const lugar = this.props.screenProps.place
-
-
-        for(var i=0; i<places.length; i++){
-          if(lugar === places[i].name){
-            coord[0] = places[i].longitude;
-            coord[1] = places[i].latitude;
-            descripcion = places[i].description;
-            i = places.length-1;
-          }else{
-            coord[0] = places[i].longitude;
-            coord[1] = places[i].latitude;
-            descripcion = places[i].description;
-          }
-        }
-
-    // Treat annotations as immutable and use .map() instead of changing the array
+  updateMarker1 = () => {
     this.setState({
       annotations: this.state.annotations.map(annotation => {
         if (annotation.id !== 'marker1') { return annotation; }
         return {
-          coordinates: coord,
+          coordinates: this.props.screenProps.coord,
           'type': 'point',
-          title: lugar,
-          subtitle: descripcion,
+          title: this.props.screenProps.place,
+          subtitle: this.props.screenProps.descripcion,
           annotationImage: {
-            source: { uri: '/Users/smachta1/Downloads/metro_marker.png' },
-            height: 35,
-            width: 35
+            source: { uri: 'https://i2.wp.com/www.tafelberg.co.za/wp-content/uploads/2016/07/map-marker-hi.png?fit=372%2C594&ssl=1' },
+            height: 25,
+            width: 25
           },
           id: 'marker1'
         };
@@ -211,12 +220,14 @@ export default class MapExample1 extends Component {
             containerViewStyle = {styles.container_button}
             buttonStyle= {styles.button}
             icon={{name: 'close', type: 'font-awesome'}}
-            backgroundColor = '#DC7633'
+            backgroundColor = '#EF6C00'
             title= {this.props.screenProps.place}
             fontFamily ='Helvetica'
+            fontSize={16}
+            fontWeight='bold'
             onPress={() => this.props.navigation.navigate('Drawer')}/>
         </View>
-        <MapView
+          <MapView
           ref={map => { this._map = map; }}
           style={styles.map}
           initialCenterCoordinate={this.state.center}
@@ -239,7 +250,8 @@ export default class MapExample1 extends Component {
           onUpdateUserLocation={this.onUpdateUserLocation}
           onLongPress={this.onLongPress}
           onTap={this.onTap}
-        />
+          logoEnabled={false}
+          />
    </View>
     );
   }
@@ -253,7 +265,8 @@ const styles = StyleSheet.create({
     alignItems: 'stretch'
   },
   map: {
-    flex: 1
+    flex: 1,
+    //width: width
   },
   scrollView: {
     flex: 1
@@ -262,6 +275,6 @@ const styles = StyleSheet.create({
     flex:2
   },
   container_button:{
-    backgroundColor:'#DC7633',
+    backgroundColor:'#EF6C00',
   }
 });

@@ -8,7 +8,7 @@ import {StyleSheet,
   ScrollView,
 } from 'react-native';
 import Accordion from 'react-native-accordion';
-import {ubicacion} from '../config/data.js';
+
 
 export default class Panel extends Component {
   constructor(props){
@@ -22,7 +22,8 @@ export default class Panel extends Component {
           this.state = {       //Step 3
               title       : props.title,
               expanded    : false,
-              animation   : new Animated.Value(39)
+              animation   : new Animated.Value(29),
+
           };
       }
 
@@ -31,8 +32,8 @@ export default class Panel extends Component {
         // let initialValue    = this.state.expanded? this.state.maxHeight + this.state.minHeight : this.state.minHeight,
           //   finalValue      = this.state.expanded? this.state.minHeight : this.state.maxHeight + this.state.minHeight;
 
-         let initialValue    = this.state.expanded? 350:39,
-             finalValue      = this.state.expanded? 39:350;
+         let initialValue    = this.state.expanded? 350:29,
+             finalValue      = this.state.expanded? 29:350;
          this.setState({
              expanded : !this.state.expanded  //Step 2
          });
@@ -63,6 +64,7 @@ export default class Panel extends Component {
   //console.log(this.state.minHeight);
 }
 
+
       render(){
           let icon = this.icons['down'];
 
@@ -74,7 +76,7 @@ export default class Panel extends Component {
           return (
             <Animated.View
               style={[styles.container,{height: this.state.animation}]}>
-                  <View style={styles.titleContainer}
+                  <View style={{flexDirection: 'row', backgroundColor: this.props.background }}
                         onLayout={this._setMinHeight.bind(this)}>
                       <Text style={styles.title}
                             onPress={this.toggle.bind(this)}>{this.state.title}</Text>
@@ -95,17 +97,10 @@ export default class Panel extends Component {
         overflow:'hidden',
         flex:1
     },
-    titleContainer : {
-        flexDirection: 'row',
-        backgroundColor: '#DC7633',
-        borderBottomWidth:3,
-        borderBottomColor: '#fff',
-
-    },
     title       : {
         flex    : 1,
         padding : 10,
-        color   :'#34495E',
+        color   :'black',
         fontFamily: 'Helvetica',
         fontWeight:'bold',
         textAlign: 'center'

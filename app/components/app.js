@@ -11,7 +11,6 @@ import {
   AlertIOS,
   NavigatorIOS
 } from 'react-native';
-import MapExample from './mapa.js';
 import {Tabs, Stack1, Stack2, Drawer} from '../config/router.js';
 
 
